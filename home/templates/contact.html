@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block start %}
+  <h1>Contact Us</h1>
+  <a href="/about/">About</a>
+  |
+  <a href="/">Home</a>
+
+  {% comment %} <form action="POST">
+    <div>
+      <label for="num">Mobile Number</label>
+      <input type="text" name="phone number" id="num" placeholder="+91" />
+    </div>
+
+    <div>
+      <input type="radio" name="gender" id="male" />
+      <label for="male">Male</label>
+      <input type="radio" name="gender" id="female" />
+      <label for="female">Female</label>
+    </div>
+
+    <div>
+      <label for="Education">Qualification</label>
+      <select name="Education" id="Education">
+        <option value="10th">10th</option>
+        <option value="12th">12th</option>
+        <option value="BA">BA</option>
+      </select>
+    </div>
+  </form> {% endcomment %}
+
+ <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="email" name='email' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" />
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-success position-relative">Submit</button>
+  </form>
+
+
+
+ <h1>
+    {{mail}}
+  </h1>
+{% endblock %}

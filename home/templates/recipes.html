@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block start %}
+
+<div class="container">
+    <form method='post' class="border my-4 p-4 shadow" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label" >Recipe Name</label>
+            <input type="recipe_name" name="recipe_name" class="form-control" required>
+            <div id="emailHelp" class="form-text">Share Your Delicious Recipes</div>
+        </div>
+        <div class="mb-3">
+            <label for="Description" class="form-label">Description</label>
+            <textarea type="Description" name="recilpe_desc" class="form-control height:50px" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="customFile">Photo Of Recipe</label>
+            <input type="file" name="recipe_file" class="form-control" id="customFile" required>
+        </div>
+        <div class="text-center d-grid gap-2">
+            <button type="submit"  class="btn btn-success">Submit</button>
+        </div>
+    </form>
+</div>
+
+{%endblock%}
