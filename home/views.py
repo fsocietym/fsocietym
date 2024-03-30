@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from .models import *
-
+from django.contrib import messages
 # Create your views here.
 
 def home(response):
@@ -80,14 +80,17 @@ def update_recipe(response, id):
     return render(response, 'update_recipe.html', context={'recipes':recipe_data,})
     
 
-def login(response):
+def login_page(response):
     return render(response, 'login.html')
 
 def register(response):
     if response.method == 'POST':
-        # User.first_name = response.POST['first_name']
-        # User.last_name = response.POST['last_name']
-        # User.email = response.POST['email']
+
+        user = User.objects.filter(username=response.POST['user_name'])
+
+        if user.exists():
+            messages.info(response, 'Username Already Taken')
+            return redirect("/register")
 
         user = User.objects.create(
                 username= response.POST['user_name'],
@@ -96,10 +99,7 @@ def register(response):
                 email= response.POST['email'],                
         )
 
-
-
-
         user.set_password(response.POST['password'])
         user.save()
-        return redirect('/')
+        return redirect('/login')
     return render(response, 'register.html')

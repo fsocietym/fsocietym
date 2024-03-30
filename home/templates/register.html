@@ -8,6 +8,11 @@
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">User Name</label>
             <input name="user_name" class="form-control" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text text-danger">
+                {%for message in messages%}
+                {{message}}
+                {% endfor %}
+            </div>
         </div>
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">First Name</label>
