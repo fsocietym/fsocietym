@@ -10,8 +10,13 @@
       <a href="/" class="navbar-brand" style="padding-left: 30px;">Noor's Recipe</a>
       <form class="form-inline">
         <div>
-            <a href="/login" class="btn text-success">Login/Register</a>
-            <a href='/add_recipes' class="btn btn-outline-success my-2 my-sm-0">Add Recipe</a>
+          {%if request.user.is_authenticated%}
+            <a href='/logout' type="button" class="btn btn-danger">logout</a>
+          {% else %}
+          <a href="/login" class="btn text-success">Login/Register</a>
+          {% endif %}
+          <a href='/add_recipes' class="btn btn-outline-success my-2 my-sm-0">Add Recipe</a>
+
         </div>
       </form>
   </nav>

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from .models import *
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 def home(response):
@@ -81,6 +82,22 @@ def update_recipe(response, id):
     
 
 def login_page(response):
+    if response.method == 'POST':
+        user_name = response.POST.get('user_name')
+        user_pass = response.POST.get('password')
+        user_name_filter = User.objects.filter(username=user_name)
+
+        if not user_name_filter.exists():
+            messages.info(response, 'Username Does\'t Exist.')
+            return redirect('/login')
+        else:
+            user_cred = authenticate(username=user_name, password=user_pass)
+            if user_cred:
+                login(response, user_cred)
+                return redirect('/')
+            else:
+                messages.info(response, 'incorrect password')
+                return redirect('/login')
     return render(response, 'login.html')
 
 def register(response):
@@ -103,3 +120,7 @@ def register(response):
         user.save()
         return redirect('/login')
     return render(response, 'register.html')
+
+def logout_page(request):
+    logout(request)
+    return redirect('/')
