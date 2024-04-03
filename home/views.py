@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def home(response):
@@ -30,7 +31,9 @@ def contact(response):
         print(user_data)
     
     return render(response, 'contact.html', context={'PageTitle':page_title, 'mail':user_data}) 
-    
+
+
+@login_required(login_url='/login')
 def recipes(response):
     page_title = 'Recipes'
     if response.method == 'POST':
@@ -53,6 +56,19 @@ def explore_recipe(request):
         recipes_data = RecipeModel.objects.filter(recipe_name__icontains = request.GET.get('search'))
 
     return render(request, 'explore_recipe.html', context={'recipes':recipes_data, 'PageTitle':page_title,  'data_len': len(recipes_data)})
+
+
+
+@login_required(login_url='/login')
+def my_recipe(request):
+    recipes_data = RecipeModel.objects.all()
+    page_title = 'Explore Recipe'
+
+    if request.GET.get('search'):
+        recipes_data = RecipeModel.objects.filter(recipe_name__icontains = request.GET.get('search'))
+
+    return render(request, 'my_recipe.html', context={'recipes':recipes_data, 'PageTitle':page_title,  'data_len': len(recipes_data)})
+
 
 def delete_recipe(request, id):
     recipe_data = RecipeModel.objects.filter(id=id)

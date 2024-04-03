@@ -37,6 +37,9 @@ urlpatterns = [
     path('logout/', logout_page, name='logout'),
 
 
+    path('my_recipe/', my_recipe, name='my_recipe'),
+
+
     path('admin/', admin.site.urls),
     
 ]
