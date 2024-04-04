@@ -18,3 +18,4 @@ class RecipeModel(models.Model):
     recipe_name = models.TextField(null=True)
     recipe_description = models.CharField(max_length=1500)
     recipe_file = models.FileField(upload_to='recipe_images')
+    

@@ -41,8 +41,10 @@ def recipes(response):
         recipe_file = response.FILES.get('recipe_file')
         RecipeModel.objects.create(recipe_name = recipe_data['recipe_name'],
                                  recipe_description=recipe_data['recilpe_desc'],
-                                 recipe_file=recipe_file)
-        return redirect('/recipes')
+                                 recipe_file=recipe_file,
+                                 user = response.user
+                                 )
+        return redirect('/')
     
         
     
@@ -61,11 +63,12 @@ def explore_recipe(request):
 
 @login_required(login_url='/login')
 def my_recipe(request):
-    recipes_data = RecipeModel.objects.all()
+    current_user = request.user
+    recipes_data = RecipeModel.objects.filter(user=current_user)
     page_title = 'Explore Recipe'
 
     if request.GET.get('search'):
-        recipes_data = RecipeModel.objects.filter(recipe_name__icontains = request.GET.get('search'))
+        recipes_data = RecipeModel.objects.filter(recipe_name__icontains = request.GET.get('search'), user=current_user)
 
     return render(request, 'my_recipe.html', context={'recipes':recipes_data, 'PageTitle':page_title,  'data_len': len(recipes_data)})
 
@@ -73,7 +76,7 @@ def my_recipe(request):
 def delete_recipe(request, id):
     recipe_data = RecipeModel.objects.filter(id=id)
     recipe_data.delete()
-    return redirect('/explore_recipe')
+    return redirect('/my_recipe')
 
 def update_recipe(response, id):
     if response.method == 'POST':
